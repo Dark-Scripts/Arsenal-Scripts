@@ -1,5 +1,0 @@
-for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-	if v.Name == "MaxSpread" then
-		v.Value = 0
-	end
-end
