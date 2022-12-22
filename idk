@@ -1,0 +1,149 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+	Name = "DarkHub | Arsenal",
+	LoadingTitle = "DarkHub | Arsenal",
+	LoadingSubtitle = "by DΔRKぷ#0960",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = DHArsenal, -- Create a custom folder for your hub/game
+		FileName = "DHArsenal"
+	},
+        Discord = {
+        	Enabled = ture,
+        	Invite = "AJ7X3TAYm6", -- The Discord invite code, do not include discord.gg/
+        	RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+        },
+	KeySystem = true, -- Set this to true to use our key system
+	KeySettings = {
+		Title = "DarkHub | Arsenal",
+		Subtitle = "Key System",
+		Note = "Join the discord (discord.gg/AJ7X3TAYm6)",
+		FileName = "DHKey",
+		SaveKey = true,
+		GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+		Key = "https://pastebin.com/raw/qeJBaW5H"
+	}
+})
+
+-- AIM SETTINGS
+local Tab = Window:CreateTab("Combat", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Aimbot")
+local Button = Tab:CreateButton({
+	Name = "Aimbot",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Aimbot'))()
+	end,
+})
+local Section = Tab:CreateSection("Silent Aim")
+local Button = Tab:CreateButton({
+	Name = "Silent Aim",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Silent%20Aim'))()
+	end,
+})
+
+-- VISUAL SETTINGS
+local Tab = Window:CreateTab("Visuals", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Tracers")
+local Button = Tab:CreateButton({
+	Name = "Box ESP",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/BoxEsp'))()
+	end,
+})
+local Section = Tab:CreateSection("Player Highlight")
+local Button = Tab:CreateButton({
+	Name = "Player Highlight",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Player%20Highlight'))()
+	end,
+})
+local Section = Tab:CreateSection("Tracers")
+local Button = Tab:CreateButton({
+	Name = "Tracers (Buggy)",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Tracers'))()
+	end,
+})
+-- GUN MODS
+local Tab = Window:CreateTab("Gun Mods", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Gun Mods (MAY SAY CALLBACK ERROR BUT THEY WORK!)")
+local Button = Tab:CreateButton({
+	Name = "Full Auto",
+	Callback = function()
+		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
+			if v.Name == "Auto" then
+				v.Value = true
+			end
+		end
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "No Recoil",
+	Callback = function()
+		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
+			if v.Name == "RecoilControl" then
+				v.Value = 0
+			end
+		end
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "No Bullet Spread",
+	Callback = function()
+		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
+			if v.Name == "MaxSpread" then
+				v.Value = 0
+			end
+		end
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "No Reload",
+	Callback = function()
+		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
+			if v.Name == "ReloadTime" then
+				v.Value = 1
+			 end
+		end
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "Fire Rate",
+	Callback = function()
+		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
+			if v.Name == "FireRate" then
+				v.Value = 0.05
+			end
+		end
+	end,
+})
+
+-- AUTO FARM
+local Tab = Window:CreateTab("AutoFarm", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("AutoFarm Script (Paste into brower then put script into autoexec)")
+local Button = Tab:CreateButton({
+	Name = "AutoFarm",
+	Callback = function()
+		setclipboard("https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/AutoFarm")
+		Rayfield:Notify({
+			Title = "Link Copied",
+			Content = "Link Copied (Paste into brower then put script into autoexec)",
+			Duration = 6.5,
+			Image = 4483362458,
+			Actions = { -- Notification Buttons
+				Ignore = {
+					Name = "ok",
+					Callback = function()
+						print("FUCK")
+					end
+				},
+			},
+		})
+	end,
+})
+
+-- CREDITS
+local Tab = Window:CreateTab("Credits", 4483362458) -- Title, Image
+local Paragraph = Tab:CreateParagraph({Title = "Credits", Content = "This script was made by DΔRKぷ#0960, if there are any bugs dm me"})
