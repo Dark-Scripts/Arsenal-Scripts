@@ -124,7 +124,7 @@ local Button = Tab:CreateButton({
 local Tab = Window:CreateTab("AutoFarm", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("AutoFarm Script (Paste into brower then put script into autoexec)")
 local Button = Tab:CreateButton({
-	Name = "AutoFarm",
+	Name = "AutoFarm | Created by iqvf",
 	Callback = function()
 		setclipboard("https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/AutoFarm")
 		Rayfield:Notify({
@@ -136,7 +136,7 @@ local Button = Tab:CreateButton({
 				Ignore = {
 					Name = "ok",
 					Callback = function()
-						print("FUCK")
+						print("Created by iqvf")
 					end
 				},
 			},
