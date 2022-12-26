@@ -26,18 +26,6 @@ fovcircle.Transparency = 1
 fovcircle.Position = Vector2.new(dwCamera.ViewportSize.X / 2, dwCamera.ViewportSize.Y / 2)
 
 dwUIS.InputBegan:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton2 then
-        settings.Aiming = true
-    end
-end)
-
-dwUIS.InputEnded:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton2 then
-        settings.Aiming = false
-    end
-end)
-
-dwUIS.InputBegan:Connect(function(i)
     if input.KeyCode == Enum.KeyCode.ButtonL1 then
         settings.Aiming = true
     end
