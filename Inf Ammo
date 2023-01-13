@@ -1,8 +1,0 @@
-game:GetService("RunService").Stepped:connect(function()
-    task.spawn(function()
-        if Config.Infammo then
-            getsenv(game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Functions.Weapons).ammocount.Value = 25
-            getsenv(game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Functions.Weapons).ammocount.Value = 26
-        end
-    end)
-end)
