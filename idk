@@ -68,63 +68,49 @@ local Button = Tab:CreateButton({
 })
 -- GUN MODS
 local Tab = Window:CreateTab("Gun Mods", 4483362458) -- Title, Image
-local Section = Tab:CreateSection("Gun Mods (MAY SAY CALLBACK ERROR BUT THEY WORK!)")
+local Section = Tab:CreateSection("Gun Mods")
 local Button = Tab:CreateButton({
 	Name = "Full Auto",
 	Callback = function()
-		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-			if v.Name == "Auto" then
-				v.Value = true
-			end
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Full%20Auto'))()
 	end,
-})
+ })
 local Button = Tab:CreateButton({
 	Name = "No Recoil",
 	Callback = function()
-		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-			if v.Name == "RecoilControl" then
-				v.Value = 0
-			end
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/No%20Recoil'))()
 	end,
 })
 local Button = Tab:CreateButton({
 	Name = "No Bullet Spread",
 	Callback = function()
-		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-			if v.Name == "MaxSpread" then
-				v.Value = 0
-			end
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/No%20Spread'))()
 	end,
 })
 local Button = Tab:CreateButton({
 	Name = "No Reload",
 	Callback = function()
-		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-			if v.Name == "ReloadTime" then
-				v.Value = 1
-			 end
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/No%20Reload'))()
 	end,
 })
 local Button = Tab:CreateButton({
 	Name = "Fire Rate",
 	Callback = function()
-		for i, v in pairs(replicationstorage.Weapons:GetDescendants()) do
-			if v.Name == "FireRate" then
-				v.Value = 0.05
-			end
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/FireRate'))()
 	end,
 })
+local Button = Tab:CreateButton({
+	Name = "Crits",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/Crits'))()
+	end,
+ })
 
 -- AUTO FARM
 local Tab = Window:CreateTab("AutoFarm", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("AutoFarm Script (Paste into brower then put script into autoexec)")
 local Button = Tab:CreateButton({
-	Name = "AutoFarm | Created by iqvf",
+	Name = "AutoFarm",
 	Callback = function()
 		setclipboard("https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/AutoFarm")
 		Rayfield:Notify({
@@ -136,7 +122,7 @@ local Button = Tab:CreateButton({
 				Ignore = {
 					Name = "ok",
 					Callback = function()
-						print("Created by iqvf")
+						print("FUCK")
 					end
 				},
 			},
