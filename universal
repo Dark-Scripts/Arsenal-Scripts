@@ -1,0 +1,324 @@
+local dwCamera = workspace.CurrentCamera
+local dwRunService = game:GetService("RunService")
+local dwUIS = game:GetService("UserInputService")
+local dwEntities = game:GetService("Players")
+local dwLocalPlayer = dwEntities.LocalPlayer
+local dwMouse = dwLocalPlayer:GetMouse()
+local aimParts = {"Head", "UpperTorso", "LowerTorso"}
+
+local settings = {
+    isnoclipping = false,
+	Aimbot = true,
+	Aiming = false,
+	Aimbot_AimPart = "Head",
+	Aimbot_TeamCheck = true,
+	Aimbot_Draw_FOV = true,
+	Aimbot_FOV_Radius = 200,
+	Aimbot_FOV_Color = Color3.fromRGB(255,255,255)
+}
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+	Name = "Night Hub | Universal",
+	LoadingTitle = "Night Hub | Universal",
+	LoadingSubtitle = "by DΔRKぷ#0960",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = NHUniversal, -- Create a custom folder for your hub/game
+		FileName = "NHUniversal"
+	},
+        Discord = {
+        	Enabled = true,
+        	Invite = "AJ7X3TAYm6", -- The Discord invite code, do not include discord.gg/
+        	RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+        },
+	KeySystem = true, -- Set this to true to use our key system
+	KeySettings = {
+		Title = "Night Hub | Arsenal",
+		Subtitle = "Key System",
+		Note = "Join the discord (discord.gg/AJ7X3TAYm6)",
+		FileName = "NHKey",
+		SaveKey = true,
+		GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+		Key = "https://pastebin.com/raw/qeJBaW5H"
+	}
+})
+
+Rayfield:Notify({
+   Title = "Join The Discord",
+   Content = "For Updates, Scripts, and Giveaways join the discord! discord.io/DarkScripts",
+   Duration = 6.5,
+   Image = 4483362458,
+   Actions = { -- Notification Buttons
+      Ignore = {
+         Name = "Yes Sir",
+         Callback = function()
+         print("LOL")
+      end
+   },
+},
+})
+
+local fovcircle = Drawing.new("Circle")
+fovcircle.Visible = settings.Aimbot_Draw_FOV
+fovcircle.Radius = settings.Aimbot_FOV_Radius
+fovcircle.Color = settings.Aimbot_FOV_Color
+fovcircle.Thickness = 1
+fovcircle.Filled = false
+fovcircle.Transparency = 1
+fovcircle.Position = Vector2.new(dwCamera.ViewportSize.X / 2, dwCamera.ViewportSize.Y / 2)
+
+-- AIM SETTINGS
+local Tab = Window:CreateTab("Combat", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Aimbot")
+local Button = Tab:CreateButton({
+	Name = "Aimbot",
+	Callback = function()
+		dwUIS.InputBegan:Connect(function(i)
+			if i.UserInputType == Enum.UserInputType.MouseButton2 then
+				settings.Aiming = true
+			end
+		end)
+
+		dwUIS.InputEnded:Connect(function(i)
+			if i.UserInputType == Enum.UserInputType.MouseButton2 then
+				settings.Aiming = false
+			end
+		end)
+
+		dwRunService.RenderStepped:Connect(function()
+
+
+			local dist = math.huge
+			local closest_char = nil
+
+			if settings.Aiming then
+
+				for i,v in next, dwEntities:GetChildren() do 
+
+					if v ~= dwLocalPlayer and
+					v.Character and
+					v.Character:FindFirstChild("HumanoidRootPart") and
+					v.Character:FindFirstChild("Humanoid") and
+					v.Character:FindFirstChild("Humanoid").Health > 0 then
+
+						if settings.Aimbot_TeamCheck == true and
+						v.Team ~= dwLocalPlayer.Team or
+						settings.Aimbot_TeamCheck == false then
+
+							local char = v.Character
+							local char_part_pos, is_onscreen = dwCamera:WorldToViewportPoint(char[settings.Aimbot_AimPart].Position)
+
+							if is_onscreen then
+
+								local mag = (Vector2.new(dwMouse.X, dwMouse.Y) - Vector2.new(char_part_pos.X, char_part_pos.Y)).Magnitude
+
+								if mag < dist and mag < settings.Aimbot_FOV_Radius then
+
+									dist = mag
+									closest_char = char
+
+								end
+							end
+						end
+					end
+				end
+
+				if closest_char ~= nil and
+				closest_char:FindFirstChild("HumanoidRootPart") and
+				closest_char:FindFirstChild("Humanoid") and
+				closest_char:FindFirstChild("Humanoid").Health > 0 then
+
+					dwCamera.CFrame = CFrame.new(dwCamera.CFrame.Position, closest_char[settings.Aimbot_AimPart].Position)
+				end
+			end
+		end)
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "Silent Aim",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/raw/EnSX9RiH'))()
+	end,
+})
+local Dropdown = Tab:CreateDropdown({
+	Name = "Aim Part",
+	Options = {"Head","UpperTorso","LowerTorso","Random"},
+	CurrentOption = "Head",
+	Flag = "aimparts",
+	Callback = function(parts)
+		if parts == "Random" then
+			local randomAimPart = aimParts[math.random(#aimParts)]
+			settings.Aimbot_AimPart = randomAimPart
+		else
+			settings.Aimbot_AimPart = parts
+		end
+	end,
+})
+local Toggle = Tab:CreateToggle({
+	Name = "Teamcheck",
+	CurrentValue = true,
+	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(tc)
+		if tc == true then
+			settings.Aimbot_TeamCheck = true
+		elseif tc == false then
+			settings.Aimbot_TeamCheck = false
+		end
+	end,
+})
+local Section = Tab:CreateSection("FOV Settings")
+local Slider = Tab:CreateSlider({
+	Name = "FOV Circle Radius",
+	Range = {1, 1000},
+	Increment = 1,
+	Suffix = "",
+	CurrentValue = 200,
+	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(fs)
+		settings.Aimbot_FOV_Radius = fs
+		fovcircle.Radius = settings.Aimbot_FOV_Radius
+	end,
+})
+local Slider = Tab:CreateSlider({
+	Name = "FOV Circle Thickness",
+	Range = {1, 100},
+	Increment = 1,
+	Suffix = "",
+	CurrentValue = 1,
+	Flag = "Slider2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(tness)
+		fovcircle.Thickness = tness
+	end,
+})
+local Slider = Tab:CreateSlider({
+	Name = "FOV Circle Transparency",
+	Range = {0, 1},
+	Increment = 0.1,
+	Suffix = "",
+	CurrentValue = 1,
+	Flag = "Trans", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(trans)
+		fovcircle.Transparency = trans
+	end,
+})
+local Toggle = Tab:CreateToggle({
+	Name = "FOV Circle Filled",
+	CurrentValue = false,
+	Flag = "filled", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(fill)
+		if fill == true then
+			fovcircle.Filled = true
+		elseif fill == false then
+			fovcircle.Filled = false
+		end
+	end,
+})
+local ColorPicker = Tab:CreateColorPicker({
+    Name = "Color Picker",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ColorPicker1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(color)
+        settings.Aimbot_FOV_Color = color
+		fovcircle.Color = settings.Aimbot_FOV_Color
+    end
+})
+-- VISUAL SETTINGS
+local Tab = Window:CreateTab("Visuals", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("ESP Stuff")
+local Button = Tab:CreateButton({
+	Name = "Unnamed ESP",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua',true))()
+	end,
+})
+
+-- PLAYER FEATURES
+
+local Tab = Window:CreateTab("Player Features", 4483362458)
+local Section = Tab:CreateSection("Player Features")
+local Slider = Tab:CreateSlider({
+	Name = "WalkSpeed (Left Shift)",
+	Range = {16, 500},
+	Increment = 1,
+	Suffix = "",
+	CurrentValue = 16,
+	Flag = "wspd", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(v)
+		local Player = game:GetService'Players'.LocalPlayer;
+		local UIS = game:GetService'UserInputService';
+		UIS.InputBegan:connect(function(UserInput)
+        	if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.LeftShift then
+            	_G.Running = true
+                	while wait() and _G.Running == true do
+						game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v;
+					end
+        		end
+			end)
+		UIS.InputEnded:connect(function(UserInput)
+        	if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.LeftShift then
+                _G.Running = false
+        		end
+		end)
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "Inf Jump",
+	Callback = function()
+		local InfJumpEnabled = true
+		game:GetService("UserInputService").JumpRequest:connect(function()
+			if InfJumpEnabled then
+				game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+			else
+				game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Seated")
+			end
+		end)
+	end,
+})
+local Toggle = Tab:CreateToggle({
+	Name = "Noclip",
+	Default = false,
+	Callback = function(noclip)
+		if noclip == true then
+			settings.isnoclipping = true
+		else
+			settings.isnoclipping = false
+		end
+
+		dwRunService.Stepped:Connect(function()
+			if dwLocalPlayer.Character then
+				if settings.isnoclipping == true then
+					for i,v in pairs(dwLocalPlayer.Character:GetDescendants()) do
+						if v:IsA("BasePart") then
+							v.CanCollide = false
+						end
+					end
+				elseif settings.isnoclipping == false then
+					Stepped:Disconnect()
+				end
+			end
+		end)
+	end    
+})
+
+-- MISC
+local Tab = Window:CreateTab("Miscellaneous", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("FE Lagswitch")
+local Button = Tab:CreateButton({
+	Name = "FE Lagswitch (x to toggle on and off)",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/fe%20lagswitch", true))()
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "Inf Yield",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Dark-Scripts/Arsenal-Scripts/main/inf%20yield", true))()
+	end,
+})
+
+
+-- CREDITS
+local Tab = Window:CreateTab("Credits", 4483362458) -- Title, Image
+local Paragraph = Tab:CreateParagraph({Title = "Credits", Content = "This script was made by DΔRKぷ#0960, if there are any bugs dm me"})
